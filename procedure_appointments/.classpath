@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/jfxtras-agenda-8.0-r5.jar"/>
+	<classpathentry kind="lib" path="lib/jfxtras-common-8.0-r5.jar"/>
+	<classpathentry kind="lib" path="lib/jfxtras-controls-8.0-r5.jar"/>
+	<classpathentry kind="lib" path="lib/jfxtras-fxml-8.0-r5.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.14-20160307.jar"/>
+	<classpathentry kind="lib" path="lib/poi-ooxml-3.14-20160307.jar"/>
+	<classpathentry kind="lib" path="lib/postgresql-9.4.1208.jre6.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
