@@ -18,7 +18,16 @@ public class ModelManager implements Manager {
 	
 	public ModelManager() throws SQLException, FileNotFoundException, IOException {
 		this.database = new Database();
-		this.reader = new XLSReader("todaypatients.xls", 4);
+	}
+	
+	//XLS READING
+	
+	public void loadPatientsFromXLS(String filepath) throws IOException, SQLException {
+		this.reader = new XLSReader(filepath, 4);
+		ArrayList<Patient> patients = reader.loadPatientsFromAllRows();
+		for(int i = 0; i < patients.size(); i++) {
+			database.addPatient(patients.get(i));
+		}
 	}
 	
 	// DATABSE PATIENTS -----------------------------------------------------

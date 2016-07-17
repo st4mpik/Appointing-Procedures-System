@@ -75,34 +75,28 @@ public class Database implements Storage {
 			connection.close();
 		}
 	}
-	
+
 	public void deletePatient(long personIdNum) throws SQLException {
 		Connection connection = getConnectionDatabase();
 
 		try {
-			PreparedStatement statement = connection.prepareStatement("DELETE FROM Patients WHERE personIdNum =" + 
-					personIdNum + ";");
+			PreparedStatement statement = connection
+					.prepareStatement("DELETE FROM Patients WHERE personIdNum =" + personIdNum + ";");
 			statement.executeUpdate();
-		
 
 		} finally {
 			connection.close();
 		}
 	}
+
 	// HELPER METHODS
 	private ObservableList<Patient> convertResultSetToPatients(ResultSet result) throws SQLException {
 		ObservableList<Patient> patients = FXCollections.observableArrayList();
 		while (result.next()) {
-			patients.add(new Patient(result.getString("fullname"), 
-					result.getString("gender"),
-					result.getString("clientType"), 
-					result.getString("accomodation"), 
-					result.getString("partnership"),
-					result.getInt("age"), 
-					result.getInt("stayDuration"), 
-					result.getLong("accomodationClientID"),
-					result.getLong("personIDNum"), 
-					convertToLocalDate(result.getDate("dateOfArrival")),
+			patients.add(new Patient(result.getString("fullname"), result.getString("gender"),
+					result.getString("clientType"), result.getString("accomodation"), result.getString("partnership"),
+					result.getInt("age"), result.getInt("stayDuration"), result.getLong("accomodationClientID"),
+					result.getLong("personIDNum"), convertToLocalDate(result.getDate("dateOfArrival")),
 					convertToLocalDate(result.getDate("dateOfDeparture"))));
 
 		}
@@ -121,44 +115,42 @@ public class Database implements Storage {
 
 	// PROCEDURES
 	// ----------------------------------------------------------------------
-	
+
 	public void addProcedure(Procedure procedure) throws SQLException {
 		Connection connection = getConnectionDatabase();
 
 		try {
-			PreparedStatement statement = connection.prepareStatement("INSERT INTO Procedures VALUES(" + "'"
-					+ procedure.getName() + "' , " + "'" + procedure.getDepartment() + "' , " + 
-					+ procedure.getCapacity() + " , '" + procedure.getDuration() + " , " 
-					+ procedure.getIntervalOfProcedure().getStart() + "' , "
-					+ procedure.getIntervalOfProcedure().getEnd() + "' , "
-					+ ");");
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO procedures VALUES("
+					+ "'" + procedure.getName() + "', '" + procedure.getDepartment() + "', " +  procedure.getCapacity() + " , " +
+					procedure.getDuration() + ", TIME ' " + procedure.getIntervalOfProcedure().getStart().toString() +
+					"', TIME '" + procedure.getIntervalOfProcedure().getEnd().toString() + "');"
+					);
 			statement.executeUpdate();
 
 		} finally {
 			connection.close();
 		}
 	}
-	
+
 	public void deleteProcedure(String name) throws SQLException {
 		Connection connection = getConnectionDatabase();
 
 		try {
-			PreparedStatement statement = connection.prepareStatement("DELETE FROM Procedures WHERE name =" + 
-					"'" + name + "' ;");
+			PreparedStatement statement = connection
+					.prepareStatement("DELETE FROM Procedures WHERE name =" + "'" + name + "' ;");
 			statement.executeUpdate();
-		
 
 		} finally {
 			connection.close();
 		}
 	}
-	
+
 	public Procedure searchForProcedure(String name) throws SQLException {
 		Connection connection = getConnectionDatabase();
 
 		try {
 			PreparedStatement statement = connection
-					.prepareStatement("SELECT * FROM Patients WHERE " + "name = '" + name + " ';");
+					.prepareStatement("SELECT * FROM Procedures WHERE name = '" + name + "';");
 			ResultSet result = statement.executeQuery();
 
 			return convertResultSetToProcedures(result).get(0);
@@ -167,7 +159,7 @@ public class Database implements Storage {
 			connection.close();
 		}
 	}
-	
+
 	public ObservableList<Procedure> getAllProcedures() throws SQLException {
 		Connection connection = getConnectionDatabase();
 
@@ -180,78 +172,72 @@ public class Database implements Storage {
 			connection.close();
 		}
 	}
-	
-	
-	// HELPER METHODS
-		private ObservableList<Procedure> convertResultSetToProcedures(ResultSet result) throws SQLException {
-			ObservableList<Procedure> procedures = FXCollections.observableArrayList();;
-			while (result.next()) {
-				procedures.add(new Procedure(
-							   result.getString("name"), 
-							   result.getString("department"), 
-							   result.getInt("capacity"), 
-							   result.getInt("duration"), 
-							   convertToInterval(result.getTime("startTime"), 
-									   result.getTime("endTime"))
-							   ));
 
-			};
-			return procedures;
+	// HELPER METHODS
+	private ObservableList<Procedure> convertResultSetToProcedures(ResultSet result) throws SQLException {
+		ObservableList<Procedure> procedures = FXCollections.observableArrayList();
+		;
+		while (result.next()) {
+			procedures.add(new Procedure(result.getString("name"), result.getString("department"),
+					result.getInt("capacity"), result.getInt("duration"),
+					convertToInterval(result.getTime("startTime"), result.getTime("endTime"))));
+
 		}
+		;
+		return procedures;
+	}
+
 	// HELPER METHOD TO CONVERT START AND END TIME TO INTERVAL
-		private Interval convertToInterval(Time startTime, Time endTime ) {
-			return new Interval(convertToMyTime(startTime), convertToMyTime(endTime));
-		}
+	private Interval convertToInterval(Time startTime, Time endTime) {
+		return new Interval(convertToMyTime(startTime), convertToMyTime(endTime));
+	}
+
 	// HELPER METHOD TO CONVERT SQL TO TIME TO MYTIME
-		@SuppressWarnings("deprecation")
-		private MyTime convertToMyTime(Time time) {
-			return new MyTime(time.getHours(), time.getMinutes());
-		}
-	
+	@SuppressWarnings("deprecation")
+	private MyTime convertToMyTime(Time time) {
+		return new MyTime(time.getHours(), time.getMinutes());
+	}
+
 	//
 	// APPOINTMENTS----------------------------------------------------------------------------------
-		
-		public ObservableList<AppointmentTable> getAllAppointments() throws SQLException {
-			Connection connection = getConnectionDatabase();
 
-			try {
-				PreparedStatement statement = connection.prepareStatement("SELECT * FROM Appointments");
-				ResultSet result = statement.executeQuery();
-				return convertResultSetToAppointments(result);
+	public ObservableList<AppointmentTable> getAllAppointments() throws SQLException {
+		Connection connection = getConnectionDatabase();
 
-			} finally {
-				connection.close();
-			}
+		try {
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Appointments");
+			ResultSet result = statement.executeQuery();
+			return convertResultSetToAppointments(result);
+
+		} finally {
+			connection.close();
 		}
-		
-		// HELPER METHODS
-		private ObservableList<AppointmentTable> convertResultSetToAppointments(ResultSet result) throws SQLException {
-			ObservableList<AppointmentTable> appointments = FXCollections.observableArrayList();;
-			while (result.next()) {
-				appointments.add(new AppointmentTable(
-							   result.getLong("patientIDNum"), 
-							   result.getString("procedureName"), 
-							   convertToLocalDate(result.getDate("appointmentDate")), 
-							   convertToInterval(result.getTime("startTime"), 
-									   result.getTime("endTime"))
-							   ));
+	}
 
-			};
-			return appointments;
+	// HELPER METHODS
+	private ObservableList<AppointmentTable> convertResultSetToAppointments(ResultSet result) throws SQLException {
+		ObservableList<AppointmentTable> appointments = FXCollections.observableArrayList();
+		;
+		while (result.next()) {
+			appointments.add(new AppointmentTable(result.getLong("patientIDNum"), result.getString("procedureName"),
+					convertToLocalDate(result.getDate("appointmentDate")),
+					convertToInterval(result.getTime("startTime"), result.getTime("endTime"))));
+
 		}
-		
-		
-		public void deleteAppointment(long appointmentId) throws SQLException {
-			Connection connection = getConnectionDatabase();
+		;
+		return appointments;
+	}
 
-			try {
-				PreparedStatement statement = connection.prepareStatement("DELETE FROM Appointments WHERE appointmentID =" + 
-						 + appointmentId + " ;");
-				statement.executeUpdate();
-			
+	public void deleteAppointment(long appointmentId) throws SQLException {
+		Connection connection = getConnectionDatabase();
 
-			} finally {
-				connection.close();
-			}
+		try {
+			PreparedStatement statement = connection
+					.prepareStatement("DELETE FROM Appointments WHERE appointmentID =" + +appointmentId + " ;");
+			statement.executeUpdate();
+
+		} finally {
+			connection.close();
 		}
+	}
 }

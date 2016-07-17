@@ -72,13 +72,13 @@ public class SettingsControl {
 	@FXML
 	private TableColumn<Patient, String> partnershipCol;
 	@FXML
-	private TableColumn<Patient, Integer> ageCol;
+	private TableColumn<Patient, Number> ageCol;
 	@FXML
-	private TableColumn<Patient, Integer> stayDurationCol;
+	private TableColumn<Patient, Number> stayDurationCol;
 	@FXML
-	private TableColumn<Patient, Long> acClientIdCol;
+	private TableColumn<Patient, Number> acClientIdCol;
 	@FXML
-	private TableColumn<Patient, Long> personIdNumCol;
+	private TableColumn<Patient, Number> personIdNumCol;
 	@FXML
 	private TableColumn<Patient, LocalDate> dateOfArrivalCol;
 	@FXML
@@ -116,9 +116,9 @@ public class SettingsControl {
 	@FXML
 	private TableColumn<Procedure, String> departmentCol;
 	@FXML
-	private TableColumn<Procedure, Integer> capacityCol;
+	private TableColumn<Procedure, Number> capacityCol;
 	@FXML
-	private TableColumn<Procedure, Integer> durationCol;
+	private TableColumn<Procedure, Number> durationCol;
 	@FXML
 	private TableColumn<Procedure, MyTime> procStartTimeCol;
 	@FXML
@@ -181,8 +181,8 @@ public class SettingsControl {
 
 	private void initChoiceBoxGender() {
 		List<String> list = new ArrayList<String>();
-		list.add("Mu≈æ");
-		list.add("≈Ωena");
+		list.add("Muû");
+		list.add("éena");
 		ObservableList<String> obList = FXCollections.observableList(list);
 		genderChoice.getItems().clear();
 		genderChoice.setItems(obList);
@@ -256,7 +256,7 @@ public class SettingsControl {
 	}
 
 	private void initCapacitySpinner() {
-		SpinnerValueFactory<Integer> svf = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5);
+		SpinnerValueFactory<Integer> svf = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 12);
 		capacitySpinner.setValueFactory(svf);
 	}
 
@@ -313,10 +313,29 @@ public class SettingsControl {
 	}
 
 	private void initPatientsTable() throws SQLException {
+		fullnameCol.setCellValueFactory(cellData -> cellData.getValue().fullNameProperty());
+		genderCol.setCellValueFactory(cellData -> cellData.getValue().genderProperty());
+		clientTypeCol.setCellValueFactory(cellData -> cellData.getValue().clientTypeProperty());
+		accomodationCol.setCellValueFactory(cellData -> cellData.getValue().accomodationProperty());
+		partnershipCol.setCellValueFactory(cellData -> cellData.getValue().partnershipProperty());
+		ageCol.setCellValueFactory(cellData -> cellData.getValue().ageProperty());
+		stayDurationCol.setCellValueFactory(cellData -> cellData.getValue().stayDurationProperty());
+		acClientIdCol.setCellValueFactory(cellData -> cellData.getValue().accomodationClientIDProperty());
+		personIdNumCol.setCellValueFactory(cellData -> cellData.getValue().personIdNumProperty());
+		dateOfArrivalCol.setCellValueFactory(cellData -> cellData.getValue().dateOfArrivalProperty());
+		dateOfDepartureCol.setCellValueFactory(cellData -> cellData.getValue().dateOfDepartureProperty());
+	
 		patientsTableView.setItems(manager.getAllPatients());
 	}
 
 	private void initProceduresTable() throws SQLException {
+		nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		departmentCol.setCellValueFactory(cellData -> cellData.getValue().departmentProperty());
+		capacityCol.setCellValueFactory(cellData -> cellData.getValue().capacityProperty());
+		durationCol.setCellValueFactory(cellData -> cellData.getValue().durationProperty());
+		procStartTimeCol.setCellValueFactory(cellData -> cellData.getValue().getIntervalOfProcedure().startProperty());
+		procEndTimeCol.setCellValueFactory(cellData -> cellData.getValue().getIntervalOfProcedure().endProperty());
+		
 		proceduresTableView.setItems(manager.getAllProcedures());
 	}
 	
@@ -324,12 +343,22 @@ public class SettingsControl {
 		appointmentsTableView.setItems(manager.getAllAppointments());
 	}
 
+	// UPDATE TABLES METHODS
+	private void updatePatientsTable() throws SQLException {
+		patientsTableView.setItems(manager.getAllPatients());
+	}
+	
+	private void updateProceduresTable() throws SQLException {
+		proceduresTableView.setItems(manager.getAllProcedures());
+	}
+	
 	// BUTTON LISTENERS ------------------------------------------
 
 	// PATIENTS----------------------
 	@FXML
 	void onAddPatientClick(ActionEvent event) throws SQLException {
 		manager.addPatient(convertInputToPatient());
+		updatePatientsTable();
 	}
 
 	// HELPER METHOD TO CONVERT INPUT TO PATIENT
@@ -355,6 +384,7 @@ public class SettingsControl {
 	void onDeletePatientClick(ActionEvent event) throws SQLException {
 		Patient patient = patientsTableView.getSelectionModel().getSelectedItem();
 		manager.deletePatient(patient.getPersonIdNum());
+		updatePatientsTable();
 	}
 
 	@FXML
@@ -384,6 +414,7 @@ public class SettingsControl {
 	void onAddProcedureClick(ActionEvent event) throws SQLException {
 		Procedure procedure = convertInputToProcedure();
 		manager.addProcedure(procedure);
+		updateProceduresTable();
 	}
 
 	// HELPER METHOD TO CONVERT INPUT TO PROCEDURE
@@ -405,6 +436,7 @@ public class SettingsControl {
 	void onDeleteProcedureClick(ActionEvent event) throws SQLException {
 		Procedure procedure = proceduresTableView.getSelectionModel().getSelectedItem();
 		manager.deleteProcedure(procedure.getName());
+		updateProceduresTable();
 	}
 
 	@FXML

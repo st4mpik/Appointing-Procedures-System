@@ -59,7 +59,7 @@
                                  <children>
                                     <Label text="Fullname" />
                                     <Label text="|" />
-                                    <Label text="Janko Hrasko Mgr." fx:id="fullNameLabel"/>
+                                    <Label text="" fx:id="fullNameLabel"/>
                                  </children>
                                  <HBox.margin>
                                     <Insets top="5.0" />
@@ -69,7 +69,7 @@
                                  <children>
                                     <Label text="Gender" />
                                     <Label text="|" />
-                                    <Label text="Muz" fx:id="genderLabel" />
+                                    <Label text="" fx:id="genderLabel" />
                                  </children>
                                  <HBox.margin>
                                     <Insets top="5.0" />
@@ -79,7 +79,7 @@
                                  <children>
                                     <Label text="ClientType" />
                                     <Label text="|" />
-                                    <Label text="FBLR" fx:id="clientTypeLabel" />
+                                    <Label text="" fx:id="clientTypeLabel" />
                                  </children>
                                  <HBox.margin>
                                     <Insets top="5.0" />

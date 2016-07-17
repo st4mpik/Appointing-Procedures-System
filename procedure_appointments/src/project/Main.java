@@ -16,6 +16,7 @@ public class Main extends Application {
 	
 	public void start(Stage primaryStage) throws Exception {
 		Manager manager = new ModelManager();
+		//manager.loadPatientsFromXLS("todaypatients.xls");
 		ProcChoosingControl procChoosingControl = new ProcChoosingControl(manager);
 		primaryStage.setScene(ProcChoosingScene.getScene(procChoosingControl));
 		primaryStage.setTitle("Procedure Appointments ALPHA 1.0");

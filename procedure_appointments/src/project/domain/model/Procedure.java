@@ -1,58 +1,75 @@
 package project.domain.model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Procedure {
 	
-	private String name;
-	private String department;
-	private int capacity;
-	private int duration;
+	private StringProperty name;
+	private StringProperty department;
+	private IntegerProperty capacity;
+	private IntegerProperty duration;
 	private Interval intervalOfProcedure;
 	private ListOfListOfAppoint listOfListOfAppoint;
 	
 	
 	public Procedure(String name, String department, int capacity, int duration, Interval intervalOfProcedure) {
-		this.name = name;
-		this.department = department;
-		this.capacity = capacity;
-		this.duration = duration;
+		this.name = new SimpleStringProperty(name);
+		this.department = new SimpleStringProperty(department);
+		this.capacity = new SimpleIntegerProperty(capacity);
+		this.duration = new SimpleIntegerProperty(duration);
 		this.intervalOfProcedure = intervalOfProcedure;
 		this.listOfListOfAppoint = new ListOfListOfAppoint(capacity);
 	}
 	
 	public Procedure(String name, String department, int capacity, int duration, Interval intervalOfProcedure,
 			ListOfListOfAppoint listOfLists) {
-		this.name = name;
-		this.department = department;
-		this.capacity = capacity;
-		this.duration = duration;
+		this.name = new SimpleStringProperty(name);
+		this.department = new SimpleStringProperty(department);
+		this.capacity = new SimpleIntegerProperty(capacity);
+		this.duration = new SimpleIntegerProperty(duration);
 		this.intervalOfProcedure = intervalOfProcedure;
 		this.listOfListOfAppoint = listOfLists;
 	}
 
 	public String getName() {
-		return name;
+		return name.get();
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name.set(name);
 	}
-
+	
+	public StringProperty nameProperty() {
+		return name;
+	}
+	
 	public String getDepartment() {
-		return department;
+		return department.get();
 	}
 
 	public void setDepartment(String department) {
-		this.department = department;
+		this.department.set(department);
+	}
+	
+	public StringProperty departmentProperty() {
+		return department;
 	}
 
 	public int getCapacity() {
-		return capacity;
+		return capacity.get();
 	}
 
 	public void setCapacity(int capacity) {
-		this.capacity = capacity;
+		this.capacity.set(capacity);
 	}
-
+	
+	public IntegerProperty capacityProperty() {
+		return capacity;
+	}
+	
 	public Interval getIntervalOfProcedure() {
 		return intervalOfProcedure;
 	}
@@ -70,16 +87,21 @@ public class Procedure {
 	}
 
 	public int getDuration() {
-		return duration;
+		return duration.get();
 	}
 
+	public void setDuration(int duration) {
+		this.duration.set(duration);
+	}
+	
+	public IntegerProperty durationProperty() {
+		return duration;
+	}
+	
 	public ListOfListOfAppoint getListOfListOfAppoint() {
 		return listOfListOfAppoint;
 	}
 
-	public void setDuration(int duration) {
-		this.duration = duration;
-	}
 
 	public void setListOfListOfAppoint(ListOfListOfAppoint listOfListOfAppoint) {
 		this.listOfListOfAppoint = listOfListOfAppoint;

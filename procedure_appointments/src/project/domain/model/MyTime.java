@@ -40,6 +40,6 @@ public class MyTime {
 	}
 	
 	public String toString() {
-		return hour + ":" + min;
+		return String.format("%02d", hour) + ":" + String.format("%02d", min);
 	}
 }

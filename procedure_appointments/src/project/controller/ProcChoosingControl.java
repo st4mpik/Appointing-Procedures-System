@@ -31,6 +31,7 @@ import project.domain.mediator.Manager;
 import project.domain.model.Patient;
 import project.domain.model.Procedure;
 import project.domain.model.Speleotherapy;
+import project.view.AgendaScene;
 import project.view.SettingsScene;
 
 public class ProcChoosingControl {
@@ -44,7 +45,7 @@ public class ProcChoosingControl {
 	@FXML
 	private Button moreInfoButton;
 	@FXML
-	private Label fullnameLabel;
+	private Label fullNameLabel;
 	@FXML
 	private Label genderLabel;
 	@FXML
@@ -309,9 +310,8 @@ public class ProcChoosingControl {
 			chosenProcedures.add(manager.searchForInProcedures(label));
 		}
 		// SPELEOTHERAPY SPECIAL CASE
-		System.out.println(spinner.getValue().intValue());
 		if (spinner.getValue().intValue() != 0) {
-			Speleotherapy speleoteraphy = (Speleotherapy) manager.searchForInProcedures("speleoterapia");
+			Speleotherapy speleoteraphy = (Speleotherapy) manager.searchForInProcedures("Speleoterapia");
 			speleoteraphy.setCount(spinner.getValue());
 			chosenProcedures.add(speleoteraphy);
 		}
@@ -321,14 +321,18 @@ public class ProcChoosingControl {
 	// HELPER METHODS
 	@FXML
 	public void setLabelsWithPatientInfo(String fullname, String gender, String clientType) {
-		fullnameLabel.setText(fullname);
+		fullNameLabel.setText(fullname);
 		genderLabel.setText(gender);
 		clientTypeLabel.setText(clientType);
 	}
 
 	// BUTTON LISTENERS
 	@FXML
-	void onGenerateClick(ActionEvent event) throws SQLException {
+	void onGenerateClick(ActionEvent event) throws SQLException, IOException {
+		Stage stage = new Stage();
+    	AgendaControl agencontrol = new AgendaControl(manager);
+    	stage.setScene(AgendaScene.getScene(agencontrol));
+    	stage.show();
 		manager.generate(getChosenProcedures());
 	}
 

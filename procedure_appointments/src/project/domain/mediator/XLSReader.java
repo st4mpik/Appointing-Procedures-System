@@ -43,16 +43,27 @@ public class XLSReader {
 	
 	private void loadPatientFromRow(HSSFRow row) {
 		String fullname = row.getCell(1).getStringCellValue();
+		System.out.println(fullname);
 		int	stayDuration = (int) row.getCell(6).getNumericCellValue();
+		System.out.println(stayDuration);
 		LocalDate dateOfArrival = convertToLocalDate(row.getCell(8).getDateCellValue());
+		System.out.println(dateOfArrival);
 		LocalDate dateOfDeparture = convertToLocalDate(row.getCell(10).getDateCellValue());
+		System.out.println(dateOfDeparture);
 		String accomodation = row.getCell(11).getStringCellValue();
+		System.out.println(accomodation);
 		String clientType = row.getCell(14).getStringCellValue();
+		System.out.println(clientType);
 		String partnership = row.getCell(15).getStringCellValue();
+		System.out.println(partnership);
 		int age = (int) row.getCell(16).getNumericCellValue();
-		long accomodationClientID = (long) row.getCell(19).getNumericCellValue();
-		long personIdNum = (long) row.getCell(21).getNumericCellValue();
+		System.out.println(age);
+		long accomodationClientID = Long.parseLong(row.getCell(19).getStringCellValue());
+		System.out.println(accomodationClientID);
+		long personIdNum = Long.parseLong(row.getCell(21).getStringCellValue());
+		System.out.println(personIdNum);
 		String gender = row.getCell(22).getStringCellValue();
+		System.out.println(gender);
 		
 		Patient patient = new Patient(fullname, gender, clientType, 
 				accomodation, partnership, age, stayDuration, accomodationClientID, 

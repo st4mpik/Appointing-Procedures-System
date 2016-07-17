@@ -2,195 +2,214 @@ package project.domain.model;
 
 import java.time.LocalDate;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Patient {
 	
-	private String fullname;
-	private String gender;
-	private String clientType;
-	private String accomodation;
-	private String partnership;
-	private int age;
-	private int stayDuration;
-	private long accomodationClientID;
-	private long personIdNum;
-	private LocalDate dateOfArrival;
-	private	LocalDate dateOfDeparture;
+	private StringProperty fullname;
+	private StringProperty gender;
+	private StringProperty clientType;
+	private StringProperty accomodation;
+	private StringProperty partnership;
+	private IntegerProperty age;
+	private IntegerProperty stayDuration;
+	private LongProperty accomodationClientID;
+	private LongProperty personIdNum;
+	private ObjectProperty<LocalDate> dateOfArrival;
+	private	ObjectProperty<LocalDate> dateOfDeparture;
 	
 	
 	public Patient(String fullname, String gender, String clientType, String accomodation, String partnership, int age,
 			int stayDuration, long accomodationClientID, long personIdNum, LocalDate dateOfArrival,
 			LocalDate dateOfDeparture) {
-		this.fullname = fullname;
-		this.gender = gender;
-		this.clientType = clientType;
-		this.accomodation = accomodation;
-		this.partnership = partnership;
-		this.age = age;
-		this.stayDuration = stayDuration;
-		this.accomodationClientID = accomodationClientID;
-		this.personIdNum = personIdNum;
-		this.dateOfArrival = dateOfArrival;
-		this.dateOfDeparture = dateOfDeparture;
+		this.fullname = new SimpleStringProperty(fullname);
+		this.gender =  new SimpleStringProperty(gender);
+		this.clientType = new SimpleStringProperty(clientType);
+		this.accomodation = new SimpleStringProperty(accomodation);
+		this.partnership = new SimpleStringProperty(partnership);
+		this.age =	new SimpleIntegerProperty(age);
+		this.stayDuration = new SimpleIntegerProperty(stayDuration);
+		this.accomodationClientID = new SimpleLongProperty(accomodationClientID);
+		this.personIdNum = new SimpleLongProperty(personIdNum);
+		this.dateOfArrival = new SimpleObjectProperty<LocalDate>(dateOfArrival);
+		this.dateOfDeparture =  new SimpleObjectProperty<LocalDate>(dateOfDeparture);
 	}
 
 	
 
 
 	public String getFullname() {
-		return fullname;
+		return fullname.get();
 	}
 
-
+	public StringProperty fullNameProperty() {
+		return fullname;
+	}
+	
 
 
 	public String getGender() {
-		return gender;
+		return gender.get();
 	}
 
-
+	public StringProperty genderProperty() {
+		return gender;
+	}
+	
 
 
 	public String getClientType() {
+		return clientType.get();
+	}
+	
+	public StringProperty clientTypeProperty() {
 		return clientType;
 	}
-
-
-
+	
 
 	public String getAccomodation() {
+		return accomodation.get();
+	}
+
+	public StringProperty accomodationProperty() {
 		return accomodation;
 	}
-
-
-
-
+	
 	public String getPartnership() {
+		return partnership.get();
+	}
+	
+	public StringProperty partnershipProperty() {
 		return partnership;
 	}
-
-
-
-
+	
 	public int getAge() {
-		return age;
+		return age.get();
 	}
 
-
-
-
+	public IntegerProperty ageProperty() {
+		return age;
+	}
+	
 	public int getStayDuration() {
+		return stayDuration.get();
+	}
+
+	public IntegerProperty stayDurationProperty() {
 		return stayDuration;
 	}
 
-
-
-
 	public long getAccomodationClientID() {
-		return accomodationClientID;
+		return accomodationClientID.get();
 	}
 
-
-
-
+	public LongProperty accomodationClientIDProperty() {
+		return accomodationClientID;
+	}
+	
 	public long getPersonIdNum() {
+		return personIdNum.get();
+	}
+
+	public LongProperty personIdNumProperty() {
 		return personIdNum;
 	}
 
-
-
-
 	public LocalDate getDateOfArrival() {
+		return dateOfArrival.get();
+	}
+	
+	public ObjectProperty<LocalDate> dateOfArrivalProperty() {
 		return dateOfArrival;
 	}
 
-
-
-
 	public LocalDate getDateOfDeparture() {
+		return dateOfDeparture.get();
+	}
+
+	public ObjectProperty<LocalDate> dateOfDepartureProperty() {
 		return dateOfDeparture;
 	}
 
-
-
-
 	public void setFullname(String fullname) {
-		this.fullname = fullname;
+		this.fullname.set(fullname);
 	}
 
 
 
 
 	public void setGender(String gender) {
-		this.gender = gender;
+		this.gender.set(gender);
 	}
 
 
 
 
 	public void setClientType(String clientType) {
-		this.clientType = clientType;
+		this.clientType.set(clientType);
 	}
 
 
 
 
 	public void setAccomodation(String accomodation) {
-		this.accomodation = accomodation;
+		this.accomodation.set(accomodation);
 	}
 
 
 
 
 	public void setPartnership(String partnership) {
-		this.partnership = partnership;
+		this.partnership.set(partnership);
 	}
 
 
 
 
 	public void setAge(int age) {
-		this.age = age;
+		this.age.set(age);
 	}
 
 
 
 
 	public void setStayDuration(int stayDuration) {
-		this.stayDuration = stayDuration;
+		this.stayDuration.set(stayDuration);
 	}
 
 
 
 
 	public void setAccomodationClientID(long accomodationClientID) {
-		this.accomodationClientID = accomodationClientID;
+		this.accomodationClientID.set(accomodationClientID);
 	}
 
 
 
 
 	public void setPersonIdNum(long personIdNum) {
-		this.personIdNum = personIdNum;
+		this.personIdNum.set(personIdNum);
 	}
 
 
 
 
 	public void setDateOfArrival(LocalDate dateOfArrival) {
-		this.dateOfArrival = dateOfArrival;
+		this.dateOfArrival.set(dateOfArrival);
 	}
 
 
 
 
 	public void setDateOfDeparture(LocalDate dateOfDeparture) {
-		this.dateOfDeparture = dateOfDeparture;
+		this.dateOfDeparture.set(dateOfDeparture);
 	}
 
-
-
-
-	public boolean equals(Patient patient) {
-		return personIdNum == patient.getPersonIdNum();
-	}
 }
