@@ -32,6 +32,7 @@ CREATE TABLE Appointments
 	patientIDNum		BIGINT,
 	procedureName		VARCHAR,
 	appointmentDate		DATE NOT NULL,
+	listNumber 		SMALLINT,
 	startTime		TIME NOT NULL,
 	endTime			TIME NOT NULL,
 	PRIMARY KEY(appointmentID),

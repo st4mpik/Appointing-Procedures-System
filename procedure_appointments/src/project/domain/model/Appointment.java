@@ -4,22 +4,26 @@ import java.time.LocalDate;
 
 public class Appointment {
 	
-	private Patient patient;
+	private Long patientNum;
+	private String procedureName;
 	private LocalDate date;
 	private Interval interval;
+	private int numberOfList;
 	
-	public Appointment(Patient patient, LocalDate date, Interval interval) {
-		this.patient = patient;
+	public Appointment(Long patientNum, String procedureName, LocalDate date, Interval interval, int numberOfList) {
+		this.patientNum = patientNum;
+		this.procedureName = procedureName;
 		this.date = date;
 		this.interval = interval;
+		this.numberOfList = numberOfList;
 	}
 
-	public Patient getPatient() {
-		return patient;
+	public Long getPatientNum() {
+		return patientNum;
 	}
 
-	public void setPatient(Patient patient) {
-		this.patient = patient;
+	public void setPatientNum(Long patientNum) {
+		this.patientNum = patientNum;
 	}
 
 	public LocalDate getDateOfAppointment() {
@@ -37,5 +41,22 @@ public class Appointment {
 	public void setIntervalOfAppointment(Interval intervalOfAppointment) {
 		this.interval = intervalOfAppointment;
 	}
+
+	public String getProcedureName() {
+		return procedureName;
+	}
+
+	public void setProcedureName(String procedureName) {
+		this.procedureName = procedureName;
+	}
+	
+	public int getNumberOfList() {
+		return numberOfList;
+	}
+	
+	public void setNumberOfList(int number) {
+		this.numberOfList = number;
+	}
+	
 	
 }

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javafx.collections.ObservableList;
+import project.domain.model.Appointment;
 import project.domain.model.AppointmentTable;
 import project.domain.model.Patient;
 import project.domain.model.Procedure;
@@ -73,7 +74,9 @@ public class ModelManager implements Manager {
 	}
 	// GENERATOR ----------------------------------------------------------------
 	
-	public void generate(ArrayList<Procedure> chosenProcedures) {
-		Generator generator = new Generator(chosenProcedures);
+	public ArrayList<Appointment> generate(ArrayList<Procedure> chosenProcedures, Patient patient) throws SQLException {
+		Generator generator = new Generator(chosenProcedures, patient, database);
+		generator.generate();
+		return generator.getGeneratedAppointments();
 	}
 }

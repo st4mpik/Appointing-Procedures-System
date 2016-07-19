@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javafx.collections.ObservableList;
+import project.domain.model.Appointment;
 import project.domain.model.AppointmentTable;
 import project.domain.model.Patient;
 import project.domain.model.Procedure;
@@ -26,5 +27,5 @@ public interface Manager {
 	ObservableList<AppointmentTable> getAllAppointments() throws SQLException;
 	void deleteAppointment(long appointmentId) throws SQLException;
 	
-	void generate(ArrayList<Procedure> chosenProcedures);
+	ArrayList<Appointment> generate(ArrayList<Procedure> chosenProcedures, Patient patient) throws SQLException;
 }

@@ -1,24 +1,49 @@
 package project.domain.model;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class ListOfAppoint {
 	
-	private ArrayList<Appointment> listOfAppointments;
+	private ArrayList<Appointment> listOfAppoint;
+	private ArrayList<Interval> freeTimes;
 	
-	public ListOfAppoint(ArrayList<Appointment> listOfAppointments) {
-		this.listOfAppointments = listOfAppointments;
+	public ListOfAppoint() {
+		ArrayList<Appointment> listOfAppoint = new ArrayList<Appointment>(); 
 	}
 	
-	public void addAppointment(Appointment appointment) {
-		listOfAppointments.add(appointment);
+	public void addAll(ArrayList<Appointment> listOfAppoint) {
+		listOfAppoint.addAll(listOfAppoint); 
 	}
 	
-	public void getAppointment(int index) {
-		listOfAppointments.get(index);
+	private ArrayList<Interval> getAllAvailableTimes(Interval intervalOfProcedure, int duration) {
+		ArrayList<Interval> availableTimes = new ArrayList<Interval>();
+		MyTime startTimeCounter = intervalOfProcedure.getStart();
+		
+		do {
+			MyTime temp = startTimeCounter;
+			startTimeCounter.plus(duration);
+			availableTimes.add(new Interval(temp, startTimeCounter));
+		}
+		while(!(startTimeCounter.isOver(intervalOfProcedure.getEnd())));
+		
+		return availableTimes;
 	}
 	
-	public ArrayList<Appointment> getListOfAppointments() {
-		return listOfAppointments;
+	public void setFreeTimes(Interval intervalOfProcedure, int duration) {
+		ArrayList<Interval> allAvailabe = getAllAvailableTimes(intervalOfProcedure, duration);
+		ArrayList<Interval> freeTimes = new ArrayList<Interval>();
+		for(int i = 0; i < listOfAppoint.size(); i++) {
+			for(int j = 0; j < freeTimes.size(); i++) {
+				if(!(allAvailabe.get(j).getStart().equals(listOfAppoint.get(i).getIntervalOfAppointment().getStart()))) {
+					freeTimes.add(new Interval(allAvailabe.get(j).getStart(), allAvailabe.get(j).getEnd()));
+				}
+			}
+		}
+		this.freeTimes.addAll(freeTimes);
+	}
+	
+	public ArrayList<Interval> getFreeTimes() {
+		return freeTimes;
 	}
 }

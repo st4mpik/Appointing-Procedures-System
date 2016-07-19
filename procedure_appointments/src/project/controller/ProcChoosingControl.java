@@ -28,6 +28,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import project.domain.mediator.Manager;
+import project.domain.model.Appointment;
 import project.domain.model.Patient;
 import project.domain.model.Procedure;
 import project.domain.model.Speleotherapy;
@@ -329,11 +330,12 @@ public class ProcChoosingControl {
 	// BUTTON LISTENERS
 	@FXML
 	void onGenerateClick(ActionEvent event) throws SQLException, IOException {
+		ArrayList<Appointment> generatedAppointments = manager.generate(getChosenProcedures(), 
+				manager.searchForInPatients(Long.parseLong(personIdField.getText())));
 		Stage stage = new Stage();
-    	AgendaControl agencontrol = new AgendaControl(manager);
-    	stage.setScene(AgendaScene.getScene(agencontrol));
+    	stage.setScene(AgendaScene.getScene(generatedAppointments));
     	stage.show();
-		manager.generate(getChosenProcedures());
+    	
 	}
 
 	@FXML

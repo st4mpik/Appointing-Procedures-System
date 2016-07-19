@@ -1,5 +1,6 @@
 package project.domain.model;
 
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -12,8 +13,7 @@ public class Procedure {
 	private IntegerProperty capacity;
 	private IntegerProperty duration;
 	private Interval intervalOfProcedure;
-	private ListOfListOfAppoint listOfListOfAppoint;
-	
+	private ListOfLists listOfLists;
 	
 	public Procedure(String name, String department, int capacity, int duration, Interval intervalOfProcedure) {
 		this.name = new SimpleStringProperty(name);
@@ -21,19 +21,17 @@ public class Procedure {
 		this.capacity = new SimpleIntegerProperty(capacity);
 		this.duration = new SimpleIntegerProperty(duration);
 		this.intervalOfProcedure = intervalOfProcedure;
-		this.listOfListOfAppoint = new ListOfListOfAppoint(capacity);
+		this.listOfLists = null;
 	}
 	
-	public Procedure(String name, String department, int capacity, int duration, Interval intervalOfProcedure,
-			ListOfListOfAppoint listOfLists) {
-		this.name = new SimpleStringProperty(name);
-		this.department = new SimpleStringProperty(department);
-		this.capacity = new SimpleIntegerProperty(capacity);
-		this.duration = new SimpleIntegerProperty(duration);
-		this.intervalOfProcedure = intervalOfProcedure;
-		this.listOfListOfAppoint = listOfLists;
+	public void setListOfLists(ListOfLists listOfLists) {
+		this.listOfLists = listOfLists;
 	}
-
+	
+	public ListOfLists getListOfLists() {
+		return listOfLists;
+	}
+	
 	public String getName() {
 		return name.get();
 	}
@@ -78,14 +76,6 @@ public class Procedure {
 		this.intervalOfProcedure = intervalOfProcedure;
 	}
 
-	public ListOfListOfAppoint getListOfLists() {
-		return listOfListOfAppoint;
-	}
-
-	public void setListOfLists(ListOfListOfAppoint listOfLists) {
-		this.listOfListOfAppoint = listOfLists;
-	}
-
 	public int getDuration() {
 		return duration.get();
 	}
@@ -97,16 +87,6 @@ public class Procedure {
 	public IntegerProperty durationProperty() {
 		return duration;
 	}
-	
-	public ListOfListOfAppoint getListOfListOfAppoint() {
-		return listOfListOfAppoint;
-	}
-
-
-	public void setListOfListOfAppoint(ListOfListOfAppoint listOfListOfAppoint) {
-		this.listOfListOfAppoint = listOfListOfAppoint;
-	}
-	
 	
 	
 }

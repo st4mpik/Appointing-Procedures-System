@@ -8,9 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import project.domain.model.Appointment;
 import project.domain.model.AppointmentTable;
 import project.domain.model.Interval;
 import project.domain.model.MyTime;
@@ -53,7 +55,7 @@ public class Database implements Storage {
 
 		try {
 			PreparedStatement statement = connection
-					.prepareStatement("SELECT * FROM Patients WHERE personIDNum =" + personIdNum);
+					.prepareStatement("SELECT * FROM Patients WHERE personIDNum =" + personIdNum+ ";");
 			ResultSet result = statement.executeQuery();
 
 			return convertResultSetToPatients(result).get(0);
@@ -111,6 +113,13 @@ public class Database implements Storage {
 		int month = date.getMonth() + 1;
 		int year = date.getYear() + 1900;
 		return LocalDate.of(year, month, day);
+	}
+	@SuppressWarnings("deprecation")
+	private java.sql.Date convertToSqlDate(LocalDate date) {
+		int day = date.getDayOfMonth();
+		int month = date.getMonthValue();
+		int year = date.getYear();
+		return new java.sql.Date(year, month, day);
 	}
 
 	// PROCEDURES
@@ -213,6 +222,24 @@ public class Database implements Storage {
 			connection.close();
 		}
 	}
+	
+	public ArrayList<Appointment> searchForAppointments(LocalDate date, String procedureName, int numberOfList) throws SQLException {
+		Connection connection = getConnectionDatabase();
+
+		try {
+			java.sql.Date tempDate = convertToSqlDate(date);
+			PreparedStatement statement = connection
+					.prepareStatement("SELECT * FROM Appointments WHERE appointmentDate =" + tempDate + 
+							" AND procedureName ='"+ procedureName + "' AND numberOfList = " + numberOfList + ";");
+			ResultSet result = statement.executeQuery();
+
+			return convertResultSetToAppointmentsList(result);
+
+		} finally {
+			connection.close();
+		}
+		
+	}
 
 	// HELPER METHODS
 	private ObservableList<AppointmentTable> convertResultSetToAppointments(ResultSet result) throws SQLException {
@@ -222,6 +249,19 @@ public class Database implements Storage {
 			appointments.add(new AppointmentTable(result.getLong("patientIDNum"), result.getString("procedureName"),
 					convertToLocalDate(result.getDate("appointmentDate")),
 					convertToInterval(result.getTime("startTime"), result.getTime("endTime"))));
+
+		};
+		return appointments;
+	}
+	private ArrayList<Appointment> convertResultSetToAppointmentsList(ResultSet result) throws SQLException {
+		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+		;
+		while (result.next()) {
+			
+			appointments.add(new Appointment(result.getLong("patientIDNum"), result.getString("procedureName"),
+					convertToLocalDate(result.getDate("appointmentDate")),
+					convertToInterval(result.getTime("startTime"), result.getTime("endTime")), 
+					result.getInt("numberOfList")));
 
 		}
 		;

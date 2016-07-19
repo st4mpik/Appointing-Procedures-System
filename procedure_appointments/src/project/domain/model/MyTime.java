@@ -1,3 +1,4 @@
+
 package project.domain.model;
 
 import java.util.Date;
@@ -34,9 +35,19 @@ public class MyTime {
 		this.hour = hour;
 		this.min = min;
 	}
+	public void plus(int duration) {
+		if(min + duration >= 60) {
+			hour++;
+			min = (min + duration) - 60;
+		}
+	}
 	
 	public boolean equals(MyTime time) {
 		return hour == time.getHour() && min == time.getMin();
+	}
+	
+	public boolean isOver(MyTime time) {
+		return time.getHour() >= hour && time.getMin() == time.getMin();
 	}
 	
 	public String toString() {
