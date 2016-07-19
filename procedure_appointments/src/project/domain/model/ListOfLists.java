@@ -25,6 +25,7 @@ public class ListOfLists {
 
 	public Appointment generateAppointment(Procedure procedure, Patient patient, LocalDate date) {
 		Interval interval = findSuitableInterval(procedure);
+		System.out.println(patient.getPersonIdNum() + ", " + procedure.getName() + ", " + interval.getStart().getHour() + ", " + numberOfList);
 		return new Appointment(patient.getPersonIdNum(), procedure.getName(), date, interval, numberOfList + 1);
 	}
 

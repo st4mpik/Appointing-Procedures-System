@@ -211,7 +211,7 @@
             </Tab>
             <Tab text="Appointments">
                <content>
-                  <AnchorPane fx:id="apEndTimeCol" prefHeight="200.0" prefWidth="200.0">
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
                         <Button fx:id="changeButtonAppointment" layoutX="50.0" layoutY="470.0" mnemonicParsing="false" onAction="#onChangeAppointmentClick" prefHeight="53.0" prefWidth="97.0" text="Change" />
                         <Button fx:id="deleteButtonAppointment" layoutX="170.0" layoutY="470.0" mnemonicParsing="false" onAction="#onDeleteAppointmentClick" prefHeight="53.0" prefWidth="97.0" text="Delete" />
@@ -250,6 +250,11 @@
                                           <Insets top="5.0" />
                                        </padding>
                                     </Label>
+                                    <Label text="listNumber">
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                    </Label>
                                  </children>
                               </VBox>
                               <VBox prefWidth="150.0" spacing="2.0">
@@ -270,6 +275,7 @@
                                           <Spinner fx:id="apEndTimeMinsSpinner" />
                                        </children>
                                     </HBox>
+                                    <Spinner fx:id="listNumberSpinner" />
                                  </children>
                               </VBox>
                            </children>
@@ -281,7 +287,8 @@
                               <TableColumn fx:id="procedureNameCol" prefWidth="97.0" text="procedureName" />
                               <TableColumn fx:id="appointmentDateCol" prefWidth="95.0" text="appointmentDate" />
                               <TableColumn fx:id="apStartTimeCol" prefWidth="93.0" text="startTime" />
-                              <TableColumn prefWidth="85.0" text="endTime" />
+                              <TableColumn prefWidth="85.0" text="endTime"  fx:id="apEndTimeCol" />
+                              <TableColumn prefWidth="85.0" text="listNumber"  fx:id="listNumberCol" />
                            </columns>
                         </TableView>
                      </children>

@@ -228,8 +228,8 @@ public class Database implements Storage {
 		try {
 			java.sql.Date tempDate = convertToSqlDate(date);
 			PreparedStatement statement = connection
-					.prepareStatement("SELECT * FROM Appointments WHERE appointmentDate =" + tempDate + 
-							" AND procedureName ='"+ procedureName + "' AND numberOfList = " + numberOfList + ";");
+					.prepareStatement("SELECT * FROM Appointments WHERE appointmentDate = '" + tempDate + 
+							"' AND procedureName ='"+ procedureName + "' AND numberOfList = " + numberOfList + ";");
 			ResultSet result = statement.executeQuery();
 
 			return convertResultSetToAppointmentsList(result);

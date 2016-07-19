@@ -19,11 +19,14 @@ public class Generator {
 	
 	public Generator(ArrayList<Procedure> listOfProcedures, Patient patient, Storage database) throws SQLException {
 		listOfChosenProc = listOfProcedures;
+		this.patient = patient;
 		this.database = database;	
+		this.datesOfStay = new ArrayList<LocalDate>();
+		this.genratedAppointments = new ArrayList<Appointment>();
 	}
 	
 	public void generate() throws SQLException {
-		getDatesOfStay();
+		setDatesOfStay();
 		createAppointments();
 	}
 	
@@ -42,19 +45,24 @@ public class Generator {
 		}
 	}
 	
-	private ArrayList<LocalDate> getDatesOfStay() {
+	private void setDatesOfStay() {
 		ArrayList<LocalDate> totalDates = new ArrayList<LocalDate>();
-		LocalDate start = patient.getDateOfDeparture();
+		LocalDate start = patient.getDateOfArrival();
 		LocalDate end = patient.getDateOfDeparture();
 		
 		while (!start.isAfter(end)) {
-		    totalDates.add(start);
+			totalDates.add(start);
 		    start = start.plusDays(1);
 		}
-		return totalDates;
+		System.out.println(datesOfStay.size());
+		System.out.println(totalDates.size());
+		this.datesOfStay.addAll(totalDates);
+		System.out.println(datesOfStay.size());
 	}
 	
 	public void createAppointments() throws SQLException {
+		System.out.println("testinos");
+		System.out.println(datesOfStay.size());
 		for(int i = 0; i < datesOfStay.size(); i++) {
 			initListsListOfLists(datesOfStay.get(i));
 			for(int j = 0; j < listOfChosenProc.size(); j++) {

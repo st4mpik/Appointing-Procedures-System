@@ -123,8 +123,7 @@ public class SettingsControl {
 	private TableColumn<Procedure, MyTime> procStartTimeCol;
 	@FXML
 	private TableColumn<Procedure, MyTime> procEndTimeCol;
-	@FXML
-	private AnchorPane apEndTimeCol;
+
 	@FXML
 	private Button changeButtonAppointment;
 	@FXML
@@ -148,18 +147,21 @@ public class SettingsControl {
 	@FXML
 	private Spinner<Integer> apEndTimeMinsSpinner;
 	@FXML
+	private Spinner<Integer> listNumberSpinner;
+	@FXML
 	private TableView<Appointment> appointmentsTableView;
 	@FXML
-	private TableColumn<Appointment, Long> appointmentIdCol;
+	private TableColumn<Appointment, Number> appointmentIdCol;
 	@FXML
-	private TableColumn<Appointment, Long> patientIdNumCol;
+	private TableColumn<Appointment, Number> patientIdNumCol;
 	@FXML
 	private TableColumn<Appointment, String> procedureNameCol;
 	@FXML
-	private TableColumn<Appointment, LocalDate> appointmentDateCol;
+	private TableColumn<Appointment, MyTime> appointmentDateCol;
 	@FXML
-	private TableColumn<Appointment, LocalDate> apStartTimeCol;
-
+	private TableColumn<Appointment, MyTime> apStartTimeCol;
+	@FXML
+	private TableColumn<Appointment, Integer> listNumberCol;
 	public SettingsControl(Manager manager) {
 		this.manager = manager;
 	}
