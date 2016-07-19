@@ -1,6 +1,5 @@
 package project.domain.model;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class ListOfAppoint {

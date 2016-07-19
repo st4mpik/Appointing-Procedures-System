@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import javafx.collections.ObservableList;
 import project.domain.model.Appointment;
-import project.domain.model.AppointmentTable;
 import project.domain.model.Patient;
 import project.domain.model.Procedure;
 
@@ -23,6 +22,6 @@ public interface Storage {
 	 ObservableList<Procedure> getAllProcedures() throws SQLException;
 	 
 	 ArrayList<Appointment> searchForAppointments(LocalDate date, String procedureName, int numberOfList) throws SQLException;
-	 ObservableList<AppointmentTable> getAllAppointments() throws SQLException;
+	 ObservableList<Appointment> getAllAppointments() throws SQLException;
 	 void deleteAppointment(long appointmentId) throws SQLException;
 }

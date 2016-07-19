@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import project.domain.model.Appointment;
-import project.domain.model.AppointmentTable;
 import project.domain.model.Interval;
 import project.domain.model.MyTime;
 import project.domain.model.Patient;
@@ -210,7 +209,7 @@ public class Database implements Storage {
 	//
 	// APPOINTMENTS----------------------------------------------------------------------------------
 
-	public ObservableList<AppointmentTable> getAllAppointments() throws SQLException {
+	public ObservableList<Appointment> getAllAppointments() throws SQLException {
 		Connection connection = getConnectionDatabase();
 
 		try {
@@ -242,13 +241,14 @@ public class Database implements Storage {
 	}
 
 	// HELPER METHODS
-	private ObservableList<AppointmentTable> convertResultSetToAppointments(ResultSet result) throws SQLException {
-		ObservableList<AppointmentTable> appointments = FXCollections.observableArrayList();
+	private ObservableList<Appointment> convertResultSetToAppointments(ResultSet result) throws SQLException {
+		ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 		;
 		while (result.next()) {
-			appointments.add(new AppointmentTable(result.getLong("patientIDNum"), result.getString("procedureName"),
+			appointments.add(new Appointment(result.getLong("patientIDNum"), result.getString("procedureName"),
 					convertToLocalDate(result.getDate("appointmentDate")),
-					convertToInterval(result.getTime("startTime"), result.getTime("endTime"))));
+					convertToInterval(result.getTime("startTime"), result.getTime("endTime")), 
+					result.getInt("numberOfList")));
 
 		};
 		return appointments;

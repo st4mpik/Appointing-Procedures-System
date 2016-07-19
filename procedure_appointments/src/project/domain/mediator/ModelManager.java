@@ -7,11 +7,9 @@ import java.util.ArrayList;
 
 import javafx.collections.ObservableList;
 import project.domain.model.Appointment;
-import project.domain.model.AppointmentTable;
 import project.domain.model.Patient;
 import project.domain.model.Procedure;
 
-@SuppressWarnings("unused")
 public class ModelManager implements Manager {
 	
 	private XLSReader reader;
@@ -65,7 +63,7 @@ public class ModelManager implements Manager {
 	}
 	//APPOINTMENTS--------------------------------------------------------------
 	
-	public ObservableList<AppointmentTable> getAllAppointments() throws SQLException {
+	public ObservableList<Appointment> getAllAppointments() throws SQLException {
 		return database.getAllAppointments();
 	}
 	

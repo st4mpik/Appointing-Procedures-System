@@ -2,38 +2,55 @@ package project.domain.model;
 
 import java.time.LocalDate;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Appointment {
 	
-	private Long patientNum;
-	private String procedureName;
-	private LocalDate date;
+	private LongProperty patientNum;
+	private StringProperty procedureName;
+	private ObjectProperty<LocalDate> date;
 	private Interval interval;
-	private int numberOfList;
+	private IntegerProperty numberOfList;
 	
 	public Appointment(Long patientNum, String procedureName, LocalDate date, Interval interval, int numberOfList) {
-		this.patientNum = patientNum;
-		this.procedureName = procedureName;
-		this.date = date;
+		this.patientNum = new SimpleLongProperty(patientNum);
+		this.procedureName = new SimpleStringProperty(procedureName);
+		this.date = new SimpleObjectProperty<LocalDate>(date);
 		this.interval = interval;
-		this.numberOfList = numberOfList;
+		this.numberOfList = new SimpleIntegerProperty(numberOfList);
 	}
 
 	public Long getPatientNum() {
-		return patientNum;
+		return patientNum.get();
 	}
 
 	public void setPatientNum(Long patientNum) {
-		this.patientNum = patientNum;
+		this.patientNum.set(patientNum);
+	}
+	
+	public LongProperty patientNumProperty() {
+		return patientNum;
 	}
 
 	public LocalDate getDateOfAppointment() {
-		return date;
+		return date.get();
 	}
 
 	public void setDateOfAppointment(LocalDate dateOfAppointment) {
-		this.date = dateOfAppointment;
+		this.date.set(dateOfAppointment);
 	}
-
+	
+	public ObjectProperty<LocalDate> dateOfAppointmentProperty() {
+		return date;
+	}
+	
 	public Interval getIntervalOfAppointment() {
 		return interval;
 	}
@@ -43,20 +60,29 @@ public class Appointment {
 	}
 
 	public String getProcedureName() {
-		return procedureName;
+		return procedureName.get();
 	}
 
 	public void setProcedureName(String procedureName) {
-		this.procedureName = procedureName;
+		this.procedureName.set(procedureName);
+	}
+	
+	public	StringProperty procedureNameProperty() {
+		return procedureName;
 	}
 	
 	public int getNumberOfList() {
-		return numberOfList;
+		return numberOfList.get();
 	}
 	
 	public void setNumberOfList(int number) {
-		this.numberOfList = number;
+		this.numberOfList.set(number);
 	}
+	
+	public IntegerProperty numberOfListProperty() {
+		return numberOfList;
+	}
+
 	
 	
 }
