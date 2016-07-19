@@ -213,10 +213,10 @@ public class Database implements Storage {
 		Connection connection = getConnectionDatabase();
 
 		try {
-			PreparedStatement statement = connection.prepareStatement("INSERT INTO Patients VALUES(" + 
-					appointment.getPatientNum() + ", '" + appointment.getProcedureName() + "' , " +
-					convertToSqlDate(appointment.getDateOfAppointment()) + " , " + appointment.getNumberOfList() 
-					+ " , " + ", TIME ' " + appointment.getIntervalOfAppointment().getStart().toString() + "' , "
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO Appointments VALUES("+
+					appointment.getPatientNum() + ", '" + appointment.getProcedureName() + "' , '" +
+					appointment.getDateOfAppointment() + "' , " + appointment.getNumberOfList() 
+					+ " , TIME ' " + appointment.getIntervalOfAppointment().getStart().toString() + "' , "
 							+ "TIME ' " + appointment.getIntervalOfAppointment().getEnd().toString() + " ' " +
 					");");
 			statement.executeUpdate();

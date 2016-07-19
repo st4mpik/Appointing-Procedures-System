@@ -17,7 +17,6 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import project.domain.mediator.Manager;
 import project.domain.model.Appointment;
 import project.domain.model.Interval;
@@ -368,6 +367,10 @@ public class SettingsControl {
 		proceduresTableView.setItems(manager.getAllProcedures());
 	}
 	
+	private void updateAppointmentsTable() throws SQLException {
+		appointmentsTableView.setItems(manager.getAllAppointments());
+	}
+	
 	// BUTTON LISTENERS ------------------------------------------
 
 	// PATIENTS----------------------
@@ -480,6 +483,7 @@ public class SettingsControl {
 	void onAddAppointmentClick(ActionEvent event) throws SQLException {
 		Appointment appointment = convertInputToAppointment();
 		manager.addAppointment(appointment);
+		updateAppointmentsTable();
 	}
 	// HELPER METHOD TO CONVERT INPUT TO PROCEDURE
 		private Appointment convertInputToAppointment() {
@@ -498,13 +502,15 @@ public class SettingsControl {
 	@FXML
 	void onDeleteAppointmentClick(ActionEvent event) throws NumberFormatException, SQLException {
 		manager.deleteAppointment(Long.parseLong(appointmentIdField.getText()));
+		 updateAppointmentsTable();
 	}
 
 	@FXML
-	void onChangeAppointmentClick(ActionEvent event) {
+	void onChangeAppointmentClick(ActionEvent event) throws SQLException {
 		Appointment appointment = appointmentsTableView.getSelectionModel().getSelectedItem();
 		convertFromAppointmentToInput(appointment);
 		//manager.deleteAppointment();
+		 updateAppointmentsTable();
 	}
 	
 	// HELPER METHOD
