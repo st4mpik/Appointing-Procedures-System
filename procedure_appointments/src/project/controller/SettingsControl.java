@@ -19,7 +19,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import project.domain.mediator.Manager;
-import project.domain.model.AppointmentTable;
+import project.domain.model.Appointment;
 import project.domain.model.Interval;
 import project.domain.model.MyTime;
 import project.domain.model.Patient;
@@ -148,17 +148,17 @@ public class SettingsControl {
 	@FXML
 	private Spinner<Integer> apEndTimeMinsSpinner;
 	@FXML
-	private TableView<AppointmentTable> appointmentsTableView;
+	private TableView<Appointment> appointmentsTableView;
 	@FXML
-	private TableColumn<AppointmentTable, Long> appointmentIdCol;
+	private TableColumn<Appointment, Long> appointmentIdCol;
 	@FXML
-	private TableColumn<AppointmentTable, Long> patientIdNumCol;
+	private TableColumn<Appointment, Long> patientIdNumCol;
 	@FXML
-	private TableColumn<AppointmentTable, String> procedureNameCol;
+	private TableColumn<Appointment, String> procedureNameCol;
 	@FXML
-	private TableColumn<AppointmentTable, LocalDate> appointmentDateCol;
+	private TableColumn<Appointment, LocalDate> appointmentDateCol;
 	@FXML
-	private TableColumn<AppointmentTable, LocalDate> apStartTimeCol;
+	private TableColumn<Appointment, LocalDate> apStartTimeCol;
 
 	public SettingsControl(Manager manager) {
 		this.manager = manager;
@@ -166,7 +166,7 @@ public class SettingsControl {
 
 	@FXML
 	public void initialize() throws SQLException {
-		initAllTables();
+		//initAllTables();
 		initAllChoiceBoxes();
 		initAllSpinners();
 	}
@@ -181,8 +181,8 @@ public class SettingsControl {
 
 	private void initChoiceBoxGender() {
 		List<String> list = new ArrayList<String>();
-		list.add("Muž");
-		list.add("Žena");
+		list.add("Muï¿½");
+		list.add("ï¿½ena");
 		ObservableList<String> obList = FXCollections.observableList(list);
 		genderChoice.getItems().clear();
 		genderChoice.setItems(obList);
