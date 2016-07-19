@@ -63,6 +63,10 @@ public class ModelManager implements Manager {
 	}
 	//APPOINTMENTS--------------------------------------------------------------
 	
+	public void addAppointment(Appointment appointment) throws SQLException {
+		database.addAppointment(appointment);
+	}
+	
 	public ObservableList<Appointment> getAllAppointments() throws SQLException {
 		return database.getAllAppointments();
 	}

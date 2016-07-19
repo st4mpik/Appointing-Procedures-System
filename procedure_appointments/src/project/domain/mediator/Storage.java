@@ -21,6 +21,7 @@ public interface Storage {
 	 void deleteProcedure(String name) throws SQLException;
 	 ObservableList<Procedure> getAllProcedures() throws SQLException;
 	 
+	 void addAppointment(Appointment appointment) throws SQLException;
 	 ArrayList<Appointment> searchForAppointments(LocalDate date, String procedureName, int numberOfList) throws SQLException;
 	 ObservableList<Appointment> getAllAppointments() throws SQLException;
 	 void deleteAppointment(long appointmentId) throws SQLException;

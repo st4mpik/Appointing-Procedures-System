@@ -209,6 +209,23 @@ public class Database implements Storage {
 	//
 	// APPOINTMENTS----------------------------------------------------------------------------------
 
+	public void addAppointment(Appointment appointment) throws SQLException {
+		Connection connection = getConnectionDatabase();
+
+		try {
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO Patients VALUES(" + 
+					appointment.getPatientNum() + ", '" + appointment.getProcedureName() + "' , " +
+					convertToSqlDate(appointment.getDateOfAppointment()) + " , " + appointment.getNumberOfList() 
+					+ " , " + ", TIME ' " + appointment.getIntervalOfAppointment().getStart().toString() + "' , "
+							+ "TIME ' " + appointment.getIntervalOfAppointment().getEnd().toString() + " ' " +
+					");");
+			statement.executeUpdate();
+
+		} finally {
+			connection.close();
+		}
+	}
+	
 	public ObservableList<Appointment> getAllAppointments() throws SQLException {
 		Connection connection = getConnectionDatabase();
 

@@ -157,18 +157,20 @@ public class SettingsControl {
 	@FXML
 	private TableColumn<Appointment, String> procedureNameCol;
 	@FXML
-	private TableColumn<Appointment, MyTime> appointmentDateCol;
+	private TableColumn<Appointment, LocalDate> appointmentDateCol;
 	@FXML
 	private TableColumn<Appointment, MyTime> apStartTimeCol;
 	@FXML
-	private TableColumn<Appointment, Integer> listNumberCol;
+	private TableColumn<Appointment, MyTime> apEndTimeCol;
+	@FXML
+	private TableColumn<Appointment, Number> listNumberCol;
 	public SettingsControl(Manager manager) {
 		this.manager = manager;
 	}
 
 	@FXML
 	public void initialize() throws SQLException {
-		//initAllTables();
+		initAllTables();
 		initAllChoiceBoxes();
 		initAllSpinners();
 	}
@@ -245,6 +247,7 @@ public class SettingsControl {
 		initApStartTimeMinSpinner();
 		initApEndTimeHoursSpinner();
 		initApEndTimeMinSpinner();
+		initNumberOfListSpinner();
 	}
 
 	private void initAgeSpinner() {
@@ -306,6 +309,11 @@ public class SettingsControl {
 		SpinnerValueFactory<Integer> svf = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59);
 		apEndTimeMinsSpinner.setValueFactory(svf);
 	}
+	
+	private void initNumberOfListSpinner() {
+		SpinnerValueFactory<Integer> svf = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 12);
+		listNumberSpinner.setValueFactory(svf);
+	}
 
 	// INIT TABLE VIEWS
 	private void initAllTables() throws SQLException {
@@ -342,7 +350,13 @@ public class SettingsControl {
 	}
 	
 	private void initAppointmentsTable() throws SQLException {
-		appointmentsTableView.setItems(manager.getAllAppointments());
+		patientIdNumCol.setCellValueFactory(cellData -> cellData.getValue().patientNumProperty());
+		procedureNameCol.setCellValueFactory(cellData -> cellData.getValue().procedureNameProperty());
+		appointmentDateCol.setCellValueFactory(cellData -> cellData.getValue().dateOfAppointmentProperty());
+		apStartTimeCol.setCellValueFactory(cellData -> cellData.getValue().getIntervalOfAppointment().startProperty());
+		apEndTimeCol.setCellValueFactory(cellData -> cellData.getValue().getIntervalOfAppointment().endProperty());
+		listNumberCol.setCellValueFactory(cellData -> cellData.getValue().numberOfListProperty());
+
 	}
 
 	// UPDATE TABLES METHODS
@@ -463,10 +477,24 @@ public class SettingsControl {
 	//
 	// APPOINTMENTS------------------
 	@FXML
-	void onAddAppointmentClick(ActionEvent event) {
-
+	void onAddAppointmentClick(ActionEvent event) throws SQLException {
+		Appointment appointment = convertInputToAppointment();
+		manager.addAppointment(appointment);
 	}
+	// HELPER METHOD TO CONVERT INPUT TO PROCEDURE
+		private Appointment convertInputToAppointment() {
 
+			Long patientNum = Long.parseLong(patientIdNumField.getText());
+			String procedureName = procedureNameField.getText();
+			LocalDate date = appointmentDatePicker.getValue();
+			MyTime start = new MyTime(apStartTimeHorusSpinner.getValue(), apStartTimeMinsSpinner.getValue());
+			MyTime end = new MyTime(apEndTimeHoursSpinner.getValue(), apEndTimeMinsSpinner.getValue());
+			int numberOfList = listNumberSpinner.getValue();
+
+			Interval interval = new Interval(start, end);
+
+			return new Appointment(patientNum, procedureName, date, interval, numberOfList);
+	}
 	@FXML
 	void onDeleteAppointmentClick(ActionEvent event) throws NumberFormatException, SQLException {
 		manager.deleteAppointment(Long.parseLong(appointmentIdField.getText()));
@@ -474,7 +502,23 @@ public class SettingsControl {
 
 	@FXML
 	void onChangeAppointmentClick(ActionEvent event) {
-
+		Appointment appointment = appointmentsTableView.getSelectionModel().getSelectedItem();
+		convertFromAppointmentToInput(appointment);
+		//manager.deleteAppointment();
 	}
+	
+	// HELPER METHOD
+	
+	private void convertFromAppointmentToInput(Appointment appointment) {
+		patientIdNumField.setText(appointment.getPatientNum()+ "");
+		procedureNameField.setText(appointment.getProcedureName());
+		appointmentDatePicker.setValue(appointment.getDateOfAppointment());
+		apStartTimeHorusSpinner.getValueFactory().setValue(appointment.getIntervalOfAppointment().getStart().getHour()); 
+		apStartTimeMinsSpinner.getValueFactory().setValue(appointment.getIntervalOfAppointment().getStart().getMin());
+		apEndTimeHoursSpinner.getValueFactory().setValue(appointment.getIntervalOfAppointment().getEnd().getHour());
+		apEndTimeMinsSpinner.getValueFactory().setValue(appointment.getIntervalOfAppointment().getEnd().getMin());
+		listNumberSpinner.getValueFactory().setValue(appointment.getNumberOfList());
+	}
+
 
 }
