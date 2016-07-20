@@ -78,7 +78,6 @@ public class ModelManager implements Manager {
 	
 	public ArrayList<Appointment> generate(ArrayList<Procedure> chosenProcedures, Patient patient) throws SQLException {
 		Generator generator = new Generator(chosenProcedures, patient, database);
-		generator.generate();
-		return generator.getGeneratedAppointments();
+		return generator.generate();
 	}
 }

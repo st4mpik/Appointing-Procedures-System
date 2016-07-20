@@ -5,75 +5,66 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import project.domain.model.Appointment;
-import project.domain.model.ListOfLists;
+import project.domain.model.Interval;
 import project.domain.model.Patient;
 import project.domain.model.Procedure;
 
 public class Generator {
-	
+
+	private Patient patient;
 	private ArrayList<Procedure> listOfChosenProc;
 	private Storage database;
-	private Patient patient;
-	private ArrayList<LocalDate> datesOfStay;
-	private ArrayList<Appointment> genratedAppointments;
-	
-	public Generator(ArrayList<Procedure> listOfProcedures, Patient patient, Storage database) throws SQLException {
-		listOfChosenProc = listOfProcedures;
+
+	public Generator(ArrayList<Procedure> listOfChosenProc, Patient patient, Storage database) throws SQLException {
 		this.patient = patient;
-		this.database = database;	
-		this.datesOfStay = new ArrayList<LocalDate>();
-		this.genratedAppointments = new ArrayList<Appointment>();
+		this.listOfChosenProc = listOfChosenProc;
+		this.database = database;
 	}
-	
-	public void generate() throws SQLException {
-		setDatesOfStay();
-		createAppointments();
-	}
-	
-	private void initListsListOfLists(LocalDate date) throws SQLException {
-		for(int i = 0; i < listOfChosenProc.size(); i++) {
-			int capacity = listOfChosenProc.get(i).getCapacity();
-			listOfChosenProc.get(i).setListOfLists(new ListOfLists(capacity)); 
-			initListOfAppoints(i, capacity, date, listOfChosenProc.get(i).getName());
+
+	public void inputDataFromDbToCertainProcedure(LocalDate date, int procedureIndex) throws SQLException {
+
+		int capacity = listOfChosenProc.get(procedureIndex).getCapacity();
+		Procedure procedure = listOfChosenProc.get(procedureIndex);
+		for (int i = 0; i < capacity; i++) {
+			ArrayList<Appointment> appointments = database.searchForAppointments(date, procedure.getName(), i);
+			procedure.addToTheBigList(i, appointments);
 		}
 	}
-	
-	private void initListOfAppoints(int i, int capacity, LocalDate date, String procedureName) throws SQLException {
-		for(int j = 1; j < capacity; i++) {
-			ArrayList<Appointment> temp = database.searchForAppointments(date, procedureName, j); 
-			listOfChosenProc.get(i).getListOfLists().getListOfAppoint(j-1).addAll(temp);
-		}
-	}
-	
-	private void setDatesOfStay() {
+
+	// METHOD TO GET DATES DURING THE STAY
+	private ArrayList<LocalDate> getDatesOfStay() {
 		ArrayList<LocalDate> totalDates = new ArrayList<LocalDate>();
 		LocalDate start = patient.getDateOfArrival();
 		LocalDate end = patient.getDateOfDeparture();
-		
+
 		while (!start.isAfter(end)) {
 			totalDates.add(start);
-		    start = start.plusDays(1);
+			start = start.plusDays(1);
 		}
-		System.out.println(datesOfStay.size());
-		System.out.println(totalDates.size());
-		this.datesOfStay.addAll(totalDates);
-		System.out.println(datesOfStay.size());
+		return totalDates;
 	}
 	
-	public void createAppointments() throws SQLException {
-		System.out.println("testinos");
-		System.out.println(datesOfStay.size());
-		for(int i = 0; i < datesOfStay.size(); i++) {
-			initListsListOfLists(datesOfStay.get(i));
-			for(int j = 0; j < listOfChosenProc.size(); j++) {
-				genratedAppointments.add(listOfChosenProc.get(j).getListOfLists().generateAppointment(listOfChosenProc.get(j), 
-						patient, datesOfStay.get(i)));
+	
+	public ArrayList<Appointment> generate() throws SQLException {
+		ArrayList<Appointment> allAppointments = new ArrayList<Appointment>();
+		ArrayList<LocalDate> totalDates = getDatesOfStay();
+		for (int i = 0; i < listOfChosenProc.size(); i++) {
+			for (int j = 0; j < totalDates.size(); j++) {
+				inputDataFromDbToCertainProcedure(totalDates.get(j), i);
+				
+				if(listOfChosenProc.get(i).getFirstFreeInterval() == null) {
+					return null;
+				}
+				Interval interval = listOfChosenProc.get(i).getFirstFreeInterval(allAppointments);
+				String procedureName = listOfChosenProc.get(i).getName();
+				int numberOfList = listOfChosenProc.get(i).getNumberOfListAvialable();
+				Appointment appointment = new Appointment(patient.getPersonIdNum(), procedureName , 
+						totalDates.get(j), interval, numberOfList);
+				allAppointments.add(appointment);
+				database.addAppointment(appointment);
 			}
 		}
+		return allAppointments;
 	}
-	
-	public ArrayList<Appointment> getGeneratedAppointments() {
-		return genratedAppointments;
-	}
-	
+
 }
