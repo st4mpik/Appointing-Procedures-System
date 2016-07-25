@@ -47,7 +47,7 @@ public class MyTime {
 	}
 	
 	public boolean isOver(MyTime time) {
-		return time.getHour() >= hour && time.getMin() == time.getMin();
+		return time.getHour() >= hour || time.getMin() > time.getMin();
 	}
 	
 	public String toString() {

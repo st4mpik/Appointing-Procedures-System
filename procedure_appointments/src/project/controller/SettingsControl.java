@@ -355,6 +355,8 @@ public class SettingsControl {
 		apStartTimeCol.setCellValueFactory(cellData -> cellData.getValue().getIntervalOfAppointment().startProperty());
 		apEndTimeCol.setCellValueFactory(cellData -> cellData.getValue().getIntervalOfAppointment().endProperty());
 		listNumberCol.setCellValueFactory(cellData -> cellData.getValue().numberOfListProperty());
+		
+		appointmentsTableView.setItems(manager.getAllAppointments());
 
 	}
 
@@ -463,6 +465,7 @@ public class SettingsControl {
 		Procedure procedure = proceduresTableView.getSelectionModel().getSelectedItem();
 		convertFromProcedureToInput(procedure);
 		manager.deleteProcedure(procedure.getName());
+		
 	}
 
 	// HELPER METHOD TO CONVERt PROCEDURE TO INPUT

@@ -2,10 +2,12 @@ package project.domain.mediator;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import project.domain.model.Appointment;
 import project.domain.model.Interval;
+import project.domain.model.MyTime;
 import project.domain.model.Patient;
 import project.domain.model.Procedure;
 
@@ -43,28 +45,62 @@ public class Generator {
 		}
 		return totalDates;
 	}
-	
-	
+
 	public ArrayList<Appointment> generate() throws SQLException {
 		ArrayList<Appointment> allAppointments = new ArrayList<Appointment>();
 		ArrayList<LocalDate> totalDates = getDatesOfStay();
-		for (int i = 0; i < listOfChosenProc.size(); i++) {
 			for (int j = 0; j < totalDates.size(); j++) {
+				ArrayList<Appointment> todayAppointments = new ArrayList<>();
+				for (int i = 0; i < listOfChosenProc.size(); i++) {
 				inputDataFromDbToCertainProcedure(totalDates.get(j), i);
-				
-				if(listOfChosenProc.get(i).getFirstFreeInterval() == null) {
-					return null;
+				Interval interval = listOfChosenProc.get(i).getFreeIntervals().get(0);
+				if (!todayAppointments.isEmpty()) {
+					
+					ArrayList<Interval> appointIntervals = convertSmallListToIntervalsStarts(todayAppointments);
+					ArrayList<LocalTime> intervalEnds = getAppointIntervalsEnds(appointIntervals);
+
+					
+					for (int x = 0; x < listOfChosenProc.get(i).getFreeIntervalsStarts().size(); x++) {
+						if (listOfChosenProc.get(i).getFreeIntervalsStarts().get(x)
+								.isAfter(intervalEnds.get(intervalEnds.size() - 1))) {
+							interval = listOfChosenProc.get(i).getFreeIntervals().get(x);
+							break;
+						} else {
+							
+						}
+					}
+
 				}
-				Interval interval = listOfChosenProc.get(i).getFirstFreeInterval(allAppointments);
 				String procedureName = listOfChosenProc.get(i).getName();
 				int numberOfList = listOfChosenProc.get(i).getNumberOfListAvialable();
-				Appointment appointment = new Appointment(patient.getPersonIdNum(), procedureName , 
-						totalDates.get(j), interval, numberOfList);
+				Appointment appointment = new Appointment(patient.getPersonIdNum(), procedureName, totalDates.get(j),
+						interval, numberOfList);
 				allAppointments.add(appointment);
+				todayAppointments.add(appointment);
 				database.addAppointment(appointment);
 			}
 		}
+
 		return allAppointments;
+	}
+
+	public ArrayList<LocalTime> getAppointIntervalsEnds(ArrayList<Interval> appointments) {
+		ArrayList<Interval> intervals = appointments;
+		ArrayList<LocalTime> temp = new ArrayList<LocalTime>();
+		for (int i = 0; i < intervals.size(); i++) {
+			MyTime time = intervals.get(i).getEnd();
+			LocalTime times = LocalTime.of(time.getHour(), time.getMin());
+			temp.add(times);
+		}
+		return temp;
+	}
+
+	public ArrayList<Interval> convertSmallListToIntervalsStarts(ArrayList<Appointment> smallList) {
+		ArrayList<Interval> temp = new ArrayList<Interval>();
+		for (int i = 0; i < smallList.size(); i++) {
+			temp.add(smallList.get(i).getIntervalOfAppointment());
+		}
+		return temp;
 	}
 
 }
