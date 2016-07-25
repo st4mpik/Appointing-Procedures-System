@@ -89,6 +89,86 @@ public class Database implements Storage {
 			connection.close();
 		}
 	}
+	
+	// FOR FILTERING
+	
+		public ObservableList<Patient> getAllTodayPatients() throws SQLException {
+			Connection connection = getConnectionDatabase();
+
+			try {
+				String today = "today";
+				PreparedStatement statement = connection.prepareStatement("SELECT * FROM Patients WHERE status = '" + 
+					today +	"';");
+				ResultSet result = statement.executeQuery();
+				return convertResultSetToPatients(result);
+
+			} finally {
+				connection.close();
+			}
+		}
+		
+		public ObservableList<Patient> getAllInProgressPatients() throws SQLException {
+			Connection connection = getConnectionDatabase();
+
+			try {
+				String progress = "progress";
+				PreparedStatement statement = connection.prepareStatement("SELECT * FROM Patients WHERE status = '" + 
+					progress +	"';");
+				ResultSet result = statement.executeQuery();
+				return convertResultSetToPatients(result);
+
+			} finally {
+				connection.close();
+			}
+		}
+		
+		public ObservableList<Patient> getAllArchivedPatients() throws SQLException {
+			Connection connection = getConnectionDatabase();
+
+			try {
+				String archived = "archived";
+				PreparedStatement statement = connection.prepareStatement("SELECT * FROM Patients WHERE status = '" + 
+						archived +	"';");
+				ResultSet result = statement.executeQuery();
+				return convertResultSetToPatients(result);
+
+			} finally {
+				connection.close();
+			}
+		}
+		
+		// UPDATE STATUS 
+		// TODO GET IT TO GENERATOR
+		public void updatePatientStatus(Long patientNum, String status) throws SQLException {
+			Connection connection = getConnectionDatabase();
+
+			try {
+				PreparedStatement statement = connection.prepareStatement("UPDATE Patients SET status = '" + status + 
+						"' WHERE patientIdNum =" + patientNum + " ;");
+				statement.executeUpdate();
+
+			} finally {
+				connection.close();
+			}
+		}
+		
+		// UPDATE STATUS TO ARCHVIED
+			public void updatePatientStatusToArchived() throws SQLException {
+				Connection connection = getConnectionDatabase();
+
+				try {
+					String status = "archived";
+					java.util.Date today = new java.util.Date();
+					@SuppressWarnings("deprecation")
+					java.sql.Date todaySql = new Date(today.getYear()+ 1900, today.getMonth() + 1, today.getDate());
+					PreparedStatement statement = connection.prepareStatement("UPDATE Patients SET status = '" + status + 
+							"' WHERE dateOfDeparture > '" + todaySql  + "' ;");
+					statement.executeUpdate();
+
+				} finally {
+					connection.close();
+				}
+			}
 
 	// HELPER METHODS
 	private ObservableList<Patient> convertResultSetToPatients(ResultSet result) throws SQLException {

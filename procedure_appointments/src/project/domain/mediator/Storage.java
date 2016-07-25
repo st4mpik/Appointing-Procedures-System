@@ -16,6 +16,12 @@ public interface Storage {
 	 ObservableList<Patient> getAllPatients() throws SQLException;
 	 Procedure searchForProcedure(String name) throws SQLException;
 	 void deletePatient(long personIdNum) throws SQLException;
+	 void updatePatientStatusToArchived() throws SQLException;
+	 void updatePatientStatus(Long patientNum, String status) throws SQLException;
+	 ObservableList<Patient> getAllArchivedPatients() throws SQLException;
+	 ObservableList<Patient> getAllInProgressPatients() throws SQLException;
+	 ObservableList<Patient> getAllTodayPatients() throws SQLException;
+	 
 	 
 	 void addProcedure(Procedure procedure) throws SQLException;
 	 void deleteProcedure(String name) throws SQLException;

@@ -78,6 +78,7 @@ public class Generator {
 				allAppointments.add(appointment);
 				todayAppointments.add(appointment);
 				database.addAppointment(appointment);
+				//database.updatePatientStatus(patient.getPersonIdNum(), "progress");
 			}
 		}
 

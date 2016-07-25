@@ -13,11 +13,15 @@ public interface Manager {
 	
 	void loadPatientsFromXLS(String filepath) throws IOException, SQLException;
 	
+	void updatePatientStatusToArchived() throws SQLException;
 	void addPatient(Patient patient) throws SQLException;
 	Patient searchForInPatients(long personIdNum) throws SQLException;
 	ObservableList<Patient> getAllPatients() throws SQLException;
 	Procedure searchForInProcedures(String name) throws SQLException;
 	void deletePatient(long personIdNum) throws SQLException;
+	ObservableList<Patient> getAllTodayPatients() throws SQLException;
+	ObservableList<Patient> getAllInProgressPatients() throws SQLException;
+	ObservableList<Patient> getAllArchivedPatients() throws SQLException;
 	
 	void addProcedure(Procedure procedure) throws SQLException;
 	void deleteProcedure(String name) throws SQLException;

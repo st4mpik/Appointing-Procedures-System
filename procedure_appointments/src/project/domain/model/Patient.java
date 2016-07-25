@@ -22,6 +22,7 @@ public class Patient {
 	private IntegerProperty stayDuration;
 	private LongProperty accomodationClientID;
 	private LongProperty personIdNum;
+	private StringProperty status;
 	private ObjectProperty<LocalDate> dateOfArrival;
 	private	ObjectProperty<LocalDate> dateOfDeparture;
 	
@@ -40,9 +41,25 @@ public class Patient {
 		this.personIdNum = new SimpleLongProperty(personIdNum);
 		this.dateOfArrival = new SimpleObjectProperty<LocalDate>(dateOfArrival);
 		this.dateOfDeparture =  new SimpleObjectProperty<LocalDate>(dateOfDeparture);
+		//status.set("today");
 	}
 
-	
+	public Patient(String fullname, String gender, String clientType, String accomodation, String partnership, int age,
+			int stayDuration, long accomodationClientID, long personIdNum, LocalDate dateOfArrival,
+			LocalDate dateOfDeparture, String status) {
+		this.fullname = new SimpleStringProperty(fullname);
+		this.gender =  new SimpleStringProperty(gender);
+		this.clientType = new SimpleStringProperty(clientType);
+		this.accomodation = new SimpleStringProperty(accomodation);
+		this.partnership = new SimpleStringProperty(partnership);
+		this.age =	new SimpleIntegerProperty(age);
+		this.stayDuration = new SimpleIntegerProperty(stayDuration);
+		this.accomodationClientID = new SimpleLongProperty(accomodationClientID);
+		this.personIdNum = new SimpleLongProperty(personIdNum);
+		this.status = new SimpleStringProperty(status);
+		this.dateOfArrival = new SimpleObjectProperty<LocalDate>(dateOfArrival);
+		this.dateOfDeparture =  new SimpleObjectProperty<LocalDate>(dateOfDeparture);
+	}
 
 
 	public String getFullname() {
@@ -184,9 +201,18 @@ public class Patient {
 		this.stayDuration.set(stayDuration);
 	}
 
+	public void setStatus(String status) {
+		this.status.set(status);
+	}
+	
+	public String getStatus() {
+		return status.get();
+	}
 
-
-
+	public StringProperty statusProperty() {
+		return status;
+	}
+	
 	public void setAccomodationClientID(long accomodationClientID) {
 		this.accomodationClientID.set(accomodationClientID);
 	}

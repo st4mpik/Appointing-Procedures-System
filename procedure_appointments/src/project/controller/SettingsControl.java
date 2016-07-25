@@ -163,6 +163,12 @@ public class SettingsControl {
 	private TableColumn<Appointment, MyTime> apEndTimeCol;
 	@FXML
 	private TableColumn<Appointment, Number> listNumberCol;
+	
+	@FXML
+    private ChoiceBox<String> filterChoiceBox;
+    @FXML
+    private Button filterButton;
+	
 	public SettingsControl(Manager manager) {
 		this.manager = manager;
 	}
@@ -180,12 +186,13 @@ public class SettingsControl {
 		initChoiceBoxClientType();
 		initChoiceBoxPartnership();
 		initChoiceBoxDepartment();
+		initChoiceBoxFilter();
 	}
 
 	private void initChoiceBoxGender() {
 		List<String> list = new ArrayList<String>();
-		list.add("Muï¿½");
-		list.add("ï¿½ena");
+		list.add("Muž");
+		list.add("Žena");
 		ObservableList<String> obList = FXCollections.observableList(list);
 		genderChoice.getItems().clear();
 		genderChoice.setItems(obList);
@@ -231,7 +238,18 @@ public class SettingsControl {
 		departmentChoice.setItems(obList);
 		departmentChoice.getSelectionModel().selectFirst();
 	}
-
+	
+	private void initChoiceBoxFilter() {
+		List<String> list = new ArrayList<String>();
+		list.add("Today");
+		list.add("In progress");
+		list.add("Archived");
+		ObservableList<String> obList = FXCollections.observableList(list);
+		filterChoiceBox.getItems().clear();
+		filterChoiceBox.setItems(obList);
+		filterChoiceBox.getSelectionModel().selectFirst();
+	}
+	
 	// INIT METHODS FOR SPINNERS
 	private void initAllSpinners() {
 		initAgeSpinner();
@@ -355,8 +373,6 @@ public class SettingsControl {
 		apStartTimeCol.setCellValueFactory(cellData -> cellData.getValue().getIntervalOfAppointment().startProperty());
 		apEndTimeCol.setCellValueFactory(cellData -> cellData.getValue().getIntervalOfAppointment().endProperty());
 		listNumberCol.setCellValueFactory(cellData -> cellData.getValue().numberOfListProperty());
-		
-		appointmentsTableView.setItems(manager.getAllAppointments());
 
 	}
 
@@ -374,7 +390,22 @@ public class SettingsControl {
 	}
 	
 	// BUTTON LISTENERS ------------------------------------------
-
+	
+	// FILTER------------------------
+	@FXML
+    void onFilterClick(ActionEvent event) throws SQLException {
+		int filter = filterChoiceBox.getSelectionModel().getSelectedIndex();
+		if(filter == 0) {
+			patientsTableView.setItems(manager.getAllTodayPatients());
+		}
+		if(filter == 1) {
+			patientsTableView.setItems(manager.getAllInProgressPatients());
+		}
+		if(filter == 2) {
+			patientsTableView.setItems(manager.getAllArchivedPatients());
+		}
+    }
+	
 	// PATIENTS----------------------
 	@FXML
 	void onAddPatientClick(ActionEvent event) throws SQLException {
@@ -465,7 +496,6 @@ public class SettingsControl {
 		Procedure procedure = proceduresTableView.getSelectionModel().getSelectedItem();
 		convertFromProcedureToInput(procedure);
 		manager.deleteProcedure(procedure.getName());
-		
 	}
 
 	// HELPER METHOD TO CONVERt PROCEDURE TO INPUT

@@ -30,6 +30,22 @@ public class ModelManager implements Manager {
 	}
 	
 	// DATABSE PATIENTS -----------------------------------------------------
+	public void updatePatientStatusToArchived() throws SQLException {
+		database.updatePatientStatusToArchived();
+	}
+	
+	public ObservableList<Patient> getAllTodayPatients() throws SQLException {
+		return database.getAllTodayPatients();
+	}
+
+	public ObservableList<Patient> getAllInProgressPatients() throws SQLException {
+		return database.getAllInProgressPatients();
+	}
+
+	public ObservableList<Patient> getAllArchivedPatients() throws SQLException {
+		return database.getAllArchivedPatients();
+	}
+	
 	public void addPatient(Patient patient) throws SQLException {
 		database.addPatient(patient);
 	}
@@ -80,4 +96,6 @@ public class ModelManager implements Manager {
 		Generator generator = new Generator(chosenProcedures, patient, database);
 		return generator.generate();
 	}
+
+	
 }
