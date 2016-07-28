@@ -20,7 +20,7 @@ public class Main extends Application {
 		//manager.updatePatientStatusToArchived();
 		ProcChoosingControl procChoosingControl = new ProcChoosingControl(manager);
 		primaryStage.setScene(ProcChoosingScene.getScene(procChoosingControl));
-		primaryStage.setTitle("Procedure Appointments ALPHA 1.0");
+		primaryStage.setTitle("Procedure Appointments Stos BETA 1.00");
 		primaryStage.setResizable(false);
 		primaryStage.show();
 		

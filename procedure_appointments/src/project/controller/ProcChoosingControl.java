@@ -33,8 +33,8 @@ import project.domain.model.Patient;
 import project.domain.model.Procedure;
 import project.domain.model.Speleotherapy;
 import project.view.Agenda2Scene;
-import project.view.AgendaScene;
 import project.view.SettingsScene;
+import project.view.bigAgendaScene;
 
 public class ProcChoosingControl {
 
@@ -334,8 +334,9 @@ public class ProcChoosingControl {
 		//ArrayList<Appointment> generatedAppointments = manager.generate(getChosenProcedures(), 
 		//		manager.searchForInPatients(Long.parseLong(personIdField.getText())));
 		Stage stage = new Stage();
-		Agenda2Scene agenda2scene = new Agenda2Scene();
-		stage.setScene(agenda2scene.getScene());
+		bigAgendaControl bigAgendaControl = new bigAgendaControl();
+		stage.setScene(project.view.bigAgendaScene.getScene(bigAgendaControl));
+	
     	stage.show();
     	
 	}

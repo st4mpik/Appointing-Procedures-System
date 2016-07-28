@@ -164,10 +164,10 @@ public class SettingsControl {
 	@FXML
 	private TableColumn<Appointment, Number> listNumberCol;
 	
-	@FXML
-    private ChoiceBox<String> filterChoiceBox;
-    @FXML
-    private Button filterButton;
+	//@FXML
+   // private ChoiceBox<String> filterChoiceBox;
+   // @FXML
+  //  private Button filterButton;
 	
 	public SettingsControl(Manager manager) {
 		this.manager = manager;
@@ -175,7 +175,7 @@ public class SettingsControl {
 
 	@FXML
 	public void initialize() throws SQLException {
-		initAllTables();
+		//initAllTables();
 		initAllChoiceBoxes();
 		initAllSpinners();
 	}
@@ -186,13 +186,13 @@ public class SettingsControl {
 		initChoiceBoxClientType();
 		initChoiceBoxPartnership();
 		initChoiceBoxDepartment();
-		initChoiceBoxFilter();
+		//initChoiceBoxFilter();
 	}
 
 	private void initChoiceBoxGender() {
 		List<String> list = new ArrayList<String>();
-		list.add("Muž");
-		list.add("Žena");
+		list.add("Muï¿½");
+		list.add("ï¿½ena");
 		ObservableList<String> obList = FXCollections.observableList(list);
 		genderChoice.getItems().clear();
 		genderChoice.setItems(obList);
@@ -245,9 +245,9 @@ public class SettingsControl {
 		list.add("In progress");
 		list.add("Archived");
 		ObservableList<String> obList = FXCollections.observableList(list);
-		filterChoiceBox.getItems().clear();
-		filterChoiceBox.setItems(obList);
-		filterChoiceBox.getSelectionModel().selectFirst();
+		//filterChoiceBox.getItems().clear();
+		//filterChoiceBox.setItems(obList);
+		//filterChoiceBox.getSelectionModel().selectFirst();
 	}
 	
 	// INIT METHODS FOR SPINNERS
@@ -394,7 +394,7 @@ public class SettingsControl {
 	// FILTER------------------------
 	@FXML
     void onFilterClick(ActionEvent event) throws SQLException {
-		int filter = filterChoiceBox.getSelectionModel().getSelectedIndex();
+		/*int filter = filterChoiceBox.getSelectionModel().getSelectedIndex();
 		if(filter == 0) {
 			patientsTableView.setItems(manager.getAllTodayPatients());
 		}
@@ -403,7 +403,7 @@ public class SettingsControl {
 		}
 		if(filter == 2) {
 			patientsTableView.setItems(manager.getAllArchivedPatients());
-		}
+		}*/
     }
 	
 	// PATIENTS----------------------
