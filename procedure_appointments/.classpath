@@ -4,5 +4,6 @@
 	<classpathentry kind="lib" path="lib/poi-3.14-20160307.jar"/>
 	<classpathentry kind="lib" path="lib/poi-ooxml-3.14-20160307.jar"/>
 	<classpathentry kind="lib" path="lib/postgresql-9.4.1208.jre6.jar"/>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
