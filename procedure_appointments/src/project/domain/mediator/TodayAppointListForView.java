@@ -30,4 +30,5 @@ public class TodayAppointListForView {
 		public void setThisdayList(ArrayList<Appointment> thisdayList) {
 			this.thisdayList = thisdayList;
 		}
+		
  }

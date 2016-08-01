@@ -11,7 +11,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Appointment {
+public class Appointment  {
 	
 	private LongProperty patientNum;
 	private StringProperty procedureName;

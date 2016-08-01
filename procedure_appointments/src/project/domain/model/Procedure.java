@@ -17,6 +17,7 @@ public class Procedure {
 	private Interval intervalOfProcedure;
 	private ArrayList<ArrayList<Appointment>> bigList;
 	private int numberOfListAvailable;
+	private ArrayList<Integer> availableDays;
 
 	public Procedure(String name, String department, int capacity, int duration, Interval intervalOfProcedure) {
 		this.name = new SimpleStringProperty(name);
@@ -25,6 +26,10 @@ public class Procedure {
 		this.duration = new SimpleIntegerProperty(duration);
 		this.intervalOfProcedure = intervalOfProcedure;
 		this.bigList = new ArrayList<ArrayList<Appointment>>(capacity);
+		this.availableDays = new ArrayList<>();
+		for(int i = 1; i <= 6 ; i++) {
+			availableDays.add(i);
+		}
 		this.numberOfListAvailable = 1;
 	}
 
@@ -173,6 +178,14 @@ public class Procedure {
 
 	public IntegerProperty durationProperty() {
 		return duration;
+	}
+
+	public ArrayList<Integer> getAvailableDays() {
+		return availableDays;
+	}
+
+	public void setAvailableDays(ArrayList<Integer> availableDays) {
+		this.availableDays = availableDays;
 	}
 
 }

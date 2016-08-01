@@ -54,6 +54,7 @@ public class Generator {
 			for (int j = 0; j < totalDates.size(); j++) {
 				ArrayList<Appointment> todayAppointments = new ArrayList<>();
 				for (int i = 0; i < listOfChosenProc.size(); i++) {
+					if(listOfChosenProc.get(i).getAvailableDays().contains(totalDates.get(j).getDayOfWeek())) {
 				inputDataFromDbToCertainProcedure(totalDates.get(j), i);
 				Interval interval = listOfChosenProc.get(i).getFreeIntervals().get(0);
 				if (!todayAppointments.isEmpty()) {
@@ -78,11 +79,11 @@ public class Generator {
 				Appointment appointment = new Appointment(patient.getPersonIdNum(), procedureName, totalDates.get(j),
 						interval, numberOfList);
 				allAppointments.add(appointment);
-				//database.addAppointment(appointment);
-				//database.updatePatientStatus(patient.getPersonIdNum(), "progress");
 				todayAppointments.add(appointment);
+			  } else {
+				  //NOTHING
+			  }
 			}
-				System.out.println(todayAppointments.get(0).getProcedureName());
 				newList.add(new TodayAppointListForView(totalDates.get(j), todayAppointments));
 		}
 
